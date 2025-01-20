@@ -6,12 +6,14 @@ app = Flask(__name__)
 # Your FMCSA API key
 API_KEY = "cdc33e44d693a3a58451898d4ec9df862c65b954"
 
+@app.route('/', methods=['GET'])
 @app.route('/<reference_number>', methods=['GET'])
-def allowed_to_operate(reference_number):
+def allowed_to_operate(reference_number=None):
     """
     Endpoint to fetch the 'allowedToOperate' status for a given reference number.
     """
     try:
+        reference_number = request.args.get('mc_number')
         # Build the FMCSA API URL
         url = f"https://mobile.fmcsa.dot.gov/qc/services/carriers/{reference_number}?webKey={API_KEY}"
         
